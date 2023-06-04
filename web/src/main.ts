@@ -7,8 +7,17 @@ import router from './router'
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
+import { aliases, md } from 'vuetify/iconsets/md'
 
-const vuetify = createVuetify()
+const vuetify = createVuetify({
+  icons: {
+    defaultSet: 'md',
+    aliases,
+    sets: {
+      md,
+    },
+  },
+})
 
 createApp(App)
   .use(vuetify)
