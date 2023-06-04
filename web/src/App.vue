@@ -1,13 +1,13 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" color="grey-lighten-5">
-      <!--  -->
     </v-navigation-drawer>
 
     <v-app-bar color="indigo" :elevation="0">
       <v-app-bar-nav-icon @click="drawer = !drawer" icon="menu" />
 
       <v-toolbar-title v-text="$t('name')" />
+      <LanguageSwitch />
     </v-app-bar>
 
     <v-main>

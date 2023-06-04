@@ -1,4 +1,6 @@
 {
   "language": "English",
-  "name": "Vue in ESP8266"
+  "name": "Vue in ESP8266",
+  "switch_language": "Language",
+  "switch_language_to": "Language switched to"
 }

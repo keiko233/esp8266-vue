@@ -1,4 +1,6 @@
 {
   "language": "简体中文",
-  "name": "Vue in ESP8266"
+  "name": "Vue in ESP8266",
+  "switch_language": "切换语言",
+  "switch_language_to": "语言切换为"
 }
