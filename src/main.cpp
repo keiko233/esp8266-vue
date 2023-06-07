@@ -1,26 +1,64 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
 
+#define APP_VERSION "0.1.1"
+
 const char* ssid = "Home";
 const char* password = "12345687";
 
 // D5
-const int FAN = 14;
+const int FAN_PWM = 14;
+// D6
+const int FAN_TACH = 12;
 
 // Webserver
 AsyncWebServer server(80);
 
-String PARAM_MESSAGE = "status";
+void getStatus(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(1024);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+  JsonObject sysObject = rspObject.createNestedObject("system");
+  JsonObject archObject = sysObject.createNestedObject("arch");
+  JsonObject memObject = rspObject.createNestedObject("memory");
+  JsonObject fsObject = rspObject.createNestedObject("file_system");
+  JsonObject apObject = rspObject.createNestedObject("access_point");
+  JsonObject staObject = rspObject.createNestedObject("static_access_point");
+
+  sysObject["model"] = "NodeMCU v1.0";
+  sysObject["firmware"] = APP_VERSION;
+  sysObject["esp_sdk"] = ESP.getSdkVersion();
+  sysObject["cpu_freq"] = ESP.getCpuFreqMHz();
+
+  archObject["manufacturer"] = "Espressif";
+  archObject["model"] = ESP.getChipId();
+
+  memObject["free"] = ESP.getFreeHeap();
+
+  fsObject["total"] = ESP.getFlashChipSize();
+
+  apObject["ssid"] = WiFi.softAPSSID();
+  apObject["num"] = WiFi.softAPgetStationNum();
+
+  staObject["ssid"] = WiFi.SSID();
+  staObject["status"] =
+      WiFi.status() == WL_CONNECTED ? "connected" : "disconnected";
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(200, "application/json", jsonResponse);
+}
 
 void notFound(AsyncWebServerRequest* request) {
   request->send(404, "text/plain", "Not found");
 }
 
 void appLoadPinMode(void) {
-  pinMode(FAN, OUTPUT);
+  pinMode(FAN_PWM, OUTPUT);
+  pinMode(FAN_TACH, INPUT);
 }
 
 void appLoadSerial(void) {
@@ -57,28 +95,7 @@ void appLoadRouter(void) {
     request->send(LittleFS, "/web/index.js", "text/javascript");
   });
 
-  // Send a GET request to <IP>/get?message=<message>
-  server.on("/get", HTTP_GET, [](AsyncWebServerRequest* request) {
-    String message;
-    if (request->hasParam(PARAM_MESSAGE)) {
-      message = request->getParam(PARAM_MESSAGE)->value();
-      digitalWrite(FAN, message.toInt());
-    } else {
-      message = "No message sent";
-    }
-    request->send(200, "text/plain", "Hello, GET: " + message);
-  });
-
-  // Send a POST request to <IP>/post with a form field message set to <message>
-  server.on("/post", HTTP_POST, [](AsyncWebServerRequest* request) {
-    String message;
-    if (request->hasParam(PARAM_MESSAGE, true)) {
-      message = request->getParam(PARAM_MESSAGE, true)->value();
-    } else {
-      message = "No message sent";
-    }
-    request->send(200, "text/plain", "Hello, POST: " + message);
-  });
+  server.on("/api/v1/status", HTTP_GET, getStatus);
 }
 
 void setup() {
