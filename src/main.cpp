@@ -7,7 +7,7 @@
 
 #define APP_VERSION "0.1.1"
 
-const char* ssid = "Home";
+const char* ssid = "AndroidAP_5600";
 const char* password = "12345687";
 
 // D5
@@ -95,7 +95,7 @@ void appLoadRouter(void) {
     request->send(LittleFS, "/web/index.js", "text/javascript");
   });
 
-  server.on("/api/v1/status", HTTP_GET, getStatus);
+  server.on("/api/status", HTTP_GET, getStatus);
 }
 
 void setup() {
