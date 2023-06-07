@@ -2,5 +2,24 @@
   "language": "English",
   "name": "Vue in ESP8266",
   "switch_language": "Language",
-  "switch_language_to": "Language switched to"
+  "switch_language_to": "Language switched to",
+  "home": {
+    "current_environment": "Current environment",
+    "board_info": "Board info",
+    "board_name": "Board name",
+    "manufacturer": "Manufacturer",
+    "board_number": "Board number",
+    "system_info": "System info",
+    "firmware_version": "Firmware version",
+    "esp_sdk_version": "ESP SDK version",
+    "resource_details": "Resource details",
+    "cpu_frequency": "CPU frequency",
+    "available_memory": "Available memory",
+    "access_point_info": "Access point info",
+    "ssid": "SSID",
+    "connected_num": "Connected devices",
+    "static_access_point_info": "Static access point info",
+    "static_ssid": "SSID",
+    "status": "Status"
+  }
 }
