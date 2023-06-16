@@ -5,7 +5,7 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
-JsonVariant getDBObject();
+JsonObject getDBObject(DynamicJsonDocument& doc);
 bool setDBObject(const JsonObject& data);
 
 #endif

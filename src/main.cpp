@@ -82,7 +82,8 @@ void getFanSpeed(AsyncWebServerRequest* request) {
   DynamicJsonDocument jsonDoc(128);
   JsonObject rspObject = jsonDoc.to<JsonObject>();
 
-  rspObject["speed"] = getDBObject()["control"]["fan"]["speed"];
+  DynamicJsonDocument doc(128);
+  rspObject["speed"] = getDBObject(doc)["control"]["fan"]["speed"];
 
   String jsonResponse;
   serializeJson(rspObject, jsonResponse);
@@ -119,9 +120,10 @@ void setup() {
   appLoadPinMode();
   appLoadLittleFS();
 
-  const char* ssid = getDBObject()["wifi"]["ssid"];
-  const char* password = getDBObject()["wifi"]["password"];
-  const char* mdns = getDBObject()["wifi"]["mdns"];
+  DynamicJsonDocument doc(256);
+  const char* ssid = getDBObject(doc)["wifi"]["ssid"];
+  const char* password = getDBObject(doc)["wifi"]["password"];
+  const char* mdns = getDBObject(doc)["wifi"]["mdns"];
 
   appLoadWlan(ssid, password);
   appLoadMDns(mdns);

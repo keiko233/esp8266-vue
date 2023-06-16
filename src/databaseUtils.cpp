@@ -2,11 +2,11 @@
 
 const char* dbpath = "/db.json";
 
-JsonVariant getDBObject() {
+JsonObject getDBObject(DynamicJsonDocument& doc) {
   File file = LittleFS.open(dbpath, "r");
   if (!file) {
     Serial.println("Database file read failed.");
-    return JsonVariant();
+    return JsonObject();
   }
 
   size_t fileSize = file.size();
@@ -14,14 +14,14 @@ JsonVariant getDBObject() {
   std::unique_ptr<char[]> buf(new char[fileSize]);
   file.readBytes(buf.get(), fileSize);
   file.close();
-  StaticJsonDocument<256> doc;
   DeserializationError error = deserializeJson(doc, buf.get());
 
   if (error) {
     Serial.println("Database Deserialization Error.");
-    return JsonVariant();
+    return JsonObject();
   }
-  return doc.as<JsonVariant>();
+
+  return doc.as<JsonObject>();
 }
 
 bool setDBObject(const JsonObject& data) {
@@ -37,6 +37,6 @@ bool setDBObject(const JsonObject& data) {
   size_t bytesSaved = file.write(reinterpret_cast<const uint8_t*>(buffer), bytesWritten);
 
   file.close();
-
+  
   return bytesWritten == bytesSaved;
 }
