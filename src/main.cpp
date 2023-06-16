@@ -3,12 +3,9 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include "appLoad.h"
+#include "databaseUtils.h"
 
 #define APP_VERSION "0.1.2"
-
-const char* ssid = "AndroidAP_5600";
-const char* password = "12345687";
-const char* mdns = "esp8266";
 
 // D5
 const int FAN_PWM = 14;
@@ -109,6 +106,11 @@ void setup() {
   appLoadSerial();
   appLoadPinMode();
   appLoadLittleFS();
+
+  const char* ssid = getDBObject()["wifi"]["ssid"];
+  const char* password = getDBObject()["wifi"]["password"];
+  const char* mdns = getDBObject()["wifi"]["mdns"];
+
   appLoadWlan(ssid, password);
   appLoadMDns(mdns);
   appLoadRouter();
