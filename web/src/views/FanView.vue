@@ -21,14 +21,14 @@
 <script setup lang="ts">
 const loading = ref(false);
 
-const speed = ref();
+const speed = ref(0);
 
 const click = () => {
   loading.value = true;
   fetch('/api/fan', {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ speed: speed.value })
+    body: new URLSearchParams({ speed: String(speed.value) })
   })
     .then(response => response.json())
     .then(response => {
