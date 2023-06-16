@@ -23,7 +23,7 @@
     "static_ssid": "静态接入点名称",
     "status": "状态"
   },
-  "fan": {
+  "control": {
     "fan_controll": "风扇控制",
     "speed": "风扇速度"
   }

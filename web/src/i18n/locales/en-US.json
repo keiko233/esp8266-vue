@@ -23,7 +23,7 @@
     "static_ssid": "SSID",
     "status": "Status"
   },
-  "fan": {
+  "control": {
     "fan_controll": "Fan Controll",
     "speed": "Speed"
   }
