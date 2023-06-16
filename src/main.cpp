@@ -61,11 +61,23 @@ void setFanSpeed(AsyncWebServerRequest* request) {
     param = request->getParam("speed", true)->value().toInt();
     if (param > 255 || param < 0) {
       rspObject["status"] = "error";
-      rspObject["message"] = "The value of speed is too large.";
+      rspObject["message"] = "The value of speed must between 0 and 255.";
     } else {
       analogWrite(FAN_PWM, param);
-      rspObject["status"] = "success";
-      rspObject["message"] = "Speed set success.";
+
+      DynamicJsonDocument doc(200);
+      JsonObject database = getDBObject(doc);
+      database["control"]["fan"]["speed"] = param;
+
+      bool success = setDBObject(database);
+
+      if (success) {
+        rspObject["status"] = "success";
+        rspObject["message"] = "Speed set success.";
+      } else {
+        rspObject["status"] = "error";
+        rspObject["message"] = "Database write failed.";
+      }
     }
   } else {
     httpStatus = 400;
