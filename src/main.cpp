@@ -127,10 +127,17 @@ void appLoadRouter(void) {
   server.on("/api/fan", HTTP_POST, setFanSpeed);
 }
 
+void appLoadSetup(void) {
+  DynamicJsonDocument doc(128);
+  int speed = getDBObject(doc)["control"]["fan"]["speed"];
+  analogWrite(FAN_PWM, speed);
+}
+
 void setup() {
   appLoadSerial();
   appLoadPinMode();
   appLoadLittleFS();
+  appLoadSetup();
 
   DynamicJsonDocument doc(256);
   const char* ssid = getDBObject(doc)["wifi"]["ssid"];
