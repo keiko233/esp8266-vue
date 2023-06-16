@@ -50,7 +50,6 @@ void getStatus(AsyncWebServerRequest* request) {
 }
 
 void setFanSpeed(AsyncWebServerRequest* request) {
-
   DynamicJsonDocument jsonDoc(256);
   JsonObject rspObject = jsonDoc.to<JsonObject>();
 
@@ -79,6 +78,17 @@ void setFanSpeed(AsyncWebServerRequest* request) {
   request->send(httpStatus, "application/json", jsonResponse);
 }
 
+void getFanSpeed(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(128);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  rspObject["speed"] = getDBObject()["control"]["fan"]["speed"];
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(200, "application/json", jsonResponse);
+}
+
 void notFound(AsyncWebServerRequest* request) {
   request->send(404, "text/plain", "Not found");
 }
@@ -98,6 +108,8 @@ void appLoadRouter(void) {
   });
 
   server.on("/api/status", HTTP_GET, getStatus);
+
+  server.on("/api/fan", HTTP_GET, getFanSpeed);
 
   server.on("/api/fan", HTTP_POST, setFanSpeed);
 }
