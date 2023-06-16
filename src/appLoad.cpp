@@ -14,7 +14,9 @@ void appLoadSerial(void) {
 }
 
 void appLoadWlan(String ssid, String password) {
-  // Connect to WIFI
+  Serial.println("SSID: " + ssid);
+  Serial.println("Password: " + password);
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -25,8 +27,10 @@ void appLoadWlan(String ssid, String password) {
   Serial.println(WiFi.localIP());
 }
 
-void appLoadMDns(String name) {
-  if (!MDNS.begin(name)) {
+void appLoadMDns(String mdns) {
+  Serial.println("mDNS: " + mdns);
+
+  if (!MDNS.begin(mdns)) {
     Serial.println("Error setting up MDNS responder!");
     while (1) { delay(1000); }
   } else {

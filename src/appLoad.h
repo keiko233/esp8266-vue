@@ -10,6 +10,6 @@
 void appLoadLittleFS(void);
 void appLoadSerial(void);
 void appLoadWlan(String ssid, String password);
-void appLoadMDns(String name);
+void appLoadMDns(String mdns);
 
 #endif
