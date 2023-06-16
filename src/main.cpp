@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <LittleFS.h>
+#include "appLoad.h"
 
 #define APP_VERSION "0.1.2"
 
@@ -91,31 +90,6 @@ void appLoadPinMode(void) {
   pinMode(FAN_TACH, INPUT);
 }
 
-void appLoadSerial(void) {
-  Serial.begin(115200);
-  Serial.println("Starting the LittleFS Webserver..");
-}
-
-void appLoadLittleFS(void) {
-  // Begin LittleFS
-  if (!LittleFS.begin()) {
-    Serial.println("An Error has occurred while mounting LittleFS");
-    return;
-  }
-}
-
-void appLoadWlan(void) {
-  // Connect to WIFI
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.printf("WiFi Failed!\n");
-    return;
-  }
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
-}
-
 void appLoadRouter(void) {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(LittleFS, "/web/index.html", "text/html");
@@ -134,7 +108,7 @@ void setup() {
   appLoadSerial();
   appLoadPinMode();
   appLoadLittleFS();
-  appLoadWlan();
+  appLoadWlan(ssid, password);
   appLoadRouter();
   server.onNotFound(notFound);
   server.begin();
