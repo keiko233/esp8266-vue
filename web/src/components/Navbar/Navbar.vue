@@ -17,6 +17,7 @@ const router = useRouter();
 
 const items = ref([
   { text: 'Home', icon: 'home', path: '/' },
+  { text: 'Fan', icon: '', path: '/fan' },
 ]);
 
 const click = (path: string) => {

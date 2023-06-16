@@ -5,7 +5,7 @@
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
 
-#define APP_VERSION "0.1.1"
+#define APP_VERSION "0.1.2"
 
 const char* ssid = "AndroidAP_5600";
 const char* password = "12345687";
@@ -52,6 +52,36 @@ void getStatus(AsyncWebServerRequest* request) {
   request->send(200, "application/json", jsonResponse);
 }
 
+void setFanSpeed(AsyncWebServerRequest* request) {
+
+  DynamicJsonDocument jsonDoc(256);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  int httpStatus;
+  int param;
+
+  if (request->hasParam("speed", true)) {
+    httpStatus = 200;
+    param = request->getParam("speed", true)->value().toInt();
+    if (param > 255 || param < 0) {
+      rspObject["status"] = "error";
+      rspObject["message"] = "The value of speed is too large.";
+    } else {
+      analogWrite(FAN_PWM, param);
+      rspObject["status"] = "success";
+      rspObject["message"] = "Speed set success.";
+    }
+  } else {
+    httpStatus = 400;
+    rspObject["status"] = "error";
+    rspObject["message"] = "No speed parameter provided.";
+  }
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(httpStatus, "application/json", jsonResponse);
+}
+
 void notFound(AsyncWebServerRequest* request) {
   request->send(404, "text/plain", "Not found");
 }
@@ -96,6 +126,8 @@ void appLoadRouter(void) {
   });
 
   server.on("/api/status", HTTP_GET, getStatus);
+
+  server.on("/api/fan", HTTP_POST, setFanSpeed);
 }
 
 void setup() {
