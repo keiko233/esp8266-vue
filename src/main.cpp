@@ -8,6 +8,7 @@
 
 const char* ssid = "AndroidAP_5600";
 const char* password = "12345687";
+const char* mdns = "esp8266";
 
 // D5
 const int FAN_PWM = 14;
@@ -109,6 +110,7 @@ void setup() {
   appLoadPinMode();
   appLoadLittleFS();
   appLoadWlan(ssid, password);
+  appLoadMDns(mdns);
   appLoadRouter();
   server.onNotFound(notFound);
   server.begin();

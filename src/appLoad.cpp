@@ -24,3 +24,13 @@ void appLoadWlan(String ssid, String password) {
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 }
+
+void appLoadMDns(String name) {
+  if (!MDNS.begin(name)) {
+    Serial.println("Error setting up MDNS responder!");
+    while (1) { delay(1000); }
+  } else {
+    Serial.println("mDNS responder started");
+  }
+}
+ 
