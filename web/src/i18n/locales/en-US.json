@@ -26,7 +26,14 @@
   },
   "control": {
     "fan_controll": "Fan Controll",
-    "speed": "Speed"
+    "speed": "Speed",
+    "led_settings": "Led Settings",
+    "red_led_bright_time": "Red LED bright time",
+    "red_led_blink_time": "Red LED blink time",
+    "green_led_bright_time": "Green LED bright time",
+    "green_led_blink_time": "Green LED blink time",
+    "blue_led_bright_time": "Blue LED bright time",
+    "blue_led_blink_time": "Blue LED blink time"
   },
   "settings": {
     "static_access_point_settings": "Static Access Point Settings",

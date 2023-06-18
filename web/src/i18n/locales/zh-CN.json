@@ -26,7 +26,14 @@
   },
   "control": {
     "fan_controll": "风扇控制",
-    "speed": "风扇速度"
+    "speed": "风扇速度",
+    "led_settings": "Led 灯设置",
+    "red_led_bright_time": "红色 LED 常亮时间",
+    "red_led_blink_time": "红色 LED 闪烁时间",
+    "green_led_bright_time": "绿色 LED 常亮时间",
+    "green_led_blink_time": "绿色 LED 闪烁时间",
+    "blue_led_bright_time": "蓝色 LED 常亮时间",
+    "blue_led_blink_time": "蓝色 LED 闪烁时间"
   },
   "settings": {
     "static_access_point_settings": "静态接入点设置",

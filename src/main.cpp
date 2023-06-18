@@ -169,6 +169,82 @@ void restart(AsyncWebServerRequest* request) {
   ESP.reset();
 }
 
+void getLedInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(256);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  rspObject["ledRedBright"] = findDatabase("led_red_bright").toInt();
+  rspObject["ledRedBlink"] = findDatabase("led_red_blink").toInt();
+  rspObject["ledGreenBright"] = findDatabase("led_green_bright").toInt();
+  rspObject["ledGreenBlink"] = findDatabase("led_green_blink").toInt();
+  rspObject["ledBlueBright"] = findDatabase("led_blue_bright").toInt();
+  rspObject["ledBlueBlink"] = findDatabase("led_blue_blink").toInt();
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(200, "application/json", jsonResponse);
+}
+
+void setLedInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(256);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  int httpStatus;
+  String led_red_bright;
+  String led_red_blink;
+  String led_green_bright;
+  String led_green_blink;
+  String led_blue_bright;
+  String led_blue_blink;
+
+  if (
+    request->hasParam("ledRedBright", true) &&
+    request->hasParam("ledRedBlink", true) &&
+    request->hasParam("ledGreenBright", true) &&
+    request->hasParam("ledGreenBlink", true) &&
+    request->hasParam("ledBlueBright", true) &&
+    request->hasParam("ledBlueBlink", true)
+  ) {
+    httpStatus = 200;
+    led_red_bright  = request->getParam("ledRedBright", true)->value();
+    led_red_blink  = request->getParam("ledRedBlink", true)->value();
+    led_green_bright  = request->getParam("ledGreenBright", true)->value();
+    led_green_blink  = request->getParam("ledGreenBlink", true)->value();
+    led_blue_bright  = request->getParam("ledBlueBright", true)->value();
+    led_blue_blink  = request->getParam("ledBlueBlink", true)->value();
+
+    if (
+      led_red_bright == "" ||
+      led_red_blink == "" ||
+      led_green_bright == "" ||
+      led_green_blink == "" ||
+      led_blue_bright == "" ||
+      led_blue_blink == ""
+    ) {
+      rspObject["status"] = "error";
+      rspObject["message"] = "Parameter can'y be null or empty.";
+    } else {
+      updateDatabase("led_red_bright", led_red_bright);
+      updateDatabase("led_red_blink", led_red_blink);
+      updateDatabase("led_green_bright", led_green_bright);
+      updateDatabase("led_green_blink", led_green_blink);
+      updateDatabase("led_blue_bright", led_blue_bright);
+      updateDatabase("led_blue_blink", led_blue_blink);
+
+      rspObject["status"] = "success";
+      rspObject["message"] = "Led info saved.";
+    }
+  } else {
+    httpStatus = 400;
+    rspObject["status"] = "error";
+    rspObject["message"] = "No speed parameter provided.";
+  }
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(httpStatus, "application/json", jsonResponse);
+}
+
 void notFound(AsyncWebServerRequest* request) {
   request->send(404, "text/plain", "Not found");
 }
@@ -203,6 +279,10 @@ void appLoadRouter(void) {
   server.on("/api/softreboot", HTTP_GET, softReboot);
 
   server.on("/api/restart", HTTP_GET, restart);
+
+  server.on("/api/led", HTTP_GET, getLedInfo);
+
+  server.on("/api/led", HTTP_POST, setLedInfo);
 }
 
 void appLoadSetup(void) {
