@@ -13,14 +13,21 @@ void getStatus(AsyncWebServerRequest* request) {
   sysObject["model"] = "NodeMCU v1.0";
   sysObject["firmware"] = APP_VERSION;
   sysObject["esp_sdk"] = ESP.getSdkVersion();
+  sysObject["esp_core"] = ESP.getCoreVersion();
   sysObject["cpu_freq"] = ESP.getCpuFreqMHz();
+  sysObject["reset_reason"] = ESP.getResetReason();
 
   archObject["manufacturer"] = "Espressif";
   archObject["model"] = ESP.getChipId();
 
   memObject["free"] = ESP.getFreeHeap();
+  memObject["heap_fragmentation"] = ESP.getHeapFragmentation();
+  memObject["free_block_size"] = ESP.getMaxFreeBlockSize();
 
   fsObject["total"] = ESP.getFlashChipSize();
+  fsObject["chip_id"] = ESP.getFlashChipId();
+  fsObject["real_size"] = ESP.getFlashChipRealSize();
+  fsObject["speed"] = ESP.getFlashChipSpeed();
 
   apObject["ssid"] = WiFi.softAPSSID();
   apObject["num"] = WiFi.softAPgetStationNum();
