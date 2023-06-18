@@ -32,6 +32,9 @@
     "static_access_point_settings": "Static Access Point Settings",
     "ssid": "SSID",
     "password": "Password",
-    "mdns": "DNS Server Name"
+    "mdns": "DNS Server Name",
+    "shortcuts": "Shortcuts",
+    "soft_reboot": "Soft reboot",
+    "restart": "Restart"
   }
 }

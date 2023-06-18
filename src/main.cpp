@@ -155,6 +155,14 @@ void setWlanInfo(AsyncWebServerRequest* request) {
   request->send(httpStatus, "application/json", jsonResponse);
 }
 
+void softReboot(AsyncWebServerRequest* request) {
+  ESP.restart();
+}
+
+void restart(AsyncWebServerRequest* request) {
+  ESP.reset();
+}
+
 void notFound(AsyncWebServerRequest* request) {
   request->send(404, "text/plain", "Not found");
 }
@@ -182,6 +190,10 @@ void appLoadRouter(void) {
   server.on("/api/settings/wlan", HTTP_GET, getWlanInfo);
   
   server.on("/api/settings/wlan", HTTP_POST, setWlanInfo);
+
+  server.on("/api/softreboot", HTTP_GET, softReboot);
+
+  server.on("/api/restart", HTTP_GET, restart);
 }
 
 void appLoadSetup(void) {
