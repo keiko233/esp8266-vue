@@ -37,13 +37,8 @@ void setup() {
   appLoadLittleFS();
   appLoadLittleFSSetup();
   appLoadSetup();
-
-  String wifi_ssid = findDatabase("wifi_ssid");
-  String wifi_password = findDatabase("wifi_password");
-  String wifi_mdns = findDatabase("wifi_mdns");
-
-  appLoadWlan(wifi_ssid, wifi_password);
-  appLoadMDns(wifi_mdns);
+  appLoadWlan(findDatabase("wifi_ssid"), findDatabase("wifi_password"));
+  appLoadMDns(findDatabase("wifi_mdns"));
   appLoadRouter();
   server.onNotFound(notFound);
   server.begin();
@@ -69,19 +64,12 @@ void controlLed(int ledPin, int duration, bool shouldBlink = false, int blinkInt
 }
 
 void ledLoop() {
-  int led_red_bright = findDatabase("led_red_bright").toInt();
-  int led_red_blink = findDatabase("led_red_blink").toInt();
-  int led_green_bright = findDatabase("led_green_bright").toInt();
-  int led_green_blink = findDatabase("led_green_blink").toInt();
-  int led_blue_bright = findDatabase("led_blue_bright").toInt();
-  int led_blue_blink = findDatabase("led_blue_blink").toInt();
-
-  controlLed(LED_R, led_red_bright);
-  controlLed(LED_R, led_red_blink, true);
-  controlLed(LED_G, led_green_bright);
-  controlLed(LED_G, led_green_blink, true);
-  controlLed(LED_B, led_blue_bright);
-  controlLed(LED_B, led_blue_blink, true);
+  controlLed(LED_R, findDatabase("led_red_bright").toInt());
+  controlLed(LED_R, findDatabase("led_red_blink").toInt(), true);
+  controlLed(LED_G, findDatabase("led_green_bright").toInt());
+  controlLed(LED_G, findDatabase("led_green_blink").toInt(), true);
+  controlLed(LED_B, findDatabase("led_blue_bright").toInt());
+  controlLed(LED_B, findDatabase("led_blue_blink").toInt(), true);
 }
 
 void loop() {

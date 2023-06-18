@@ -38,9 +38,7 @@ void getFanSpeed(AsyncWebServerRequest* request) {
   StaticJsonDocument<128> jsonDoc;
   JsonObject rspObject = jsonDoc.to<JsonObject>();
 
-  String fan_speed = findDatabase("fan_speed");
-  int speed = fan_speed.toInt();
-  rspObject["speed"] = speed;
+  rspObject["speed"] = findDatabase("fan_speed").toInt();
 
   String jsonResponse;
   serializeJson(rspObject, jsonResponse);
@@ -86,13 +84,9 @@ void getWlanInfo(AsyncWebServerRequest* request) {
   DynamicJsonDocument jsonDoc(128);
   JsonObject rspObject = jsonDoc.to<JsonObject>();
 
-  String wifi_ssid = findDatabase("wifi_ssid");
-  String wifi_password = findDatabase("wifi_password");
-  String wifi_mdns = findDatabase("wifi_mdns");
-
-  rspObject["ssid"] = wifi_ssid;
-  rspObject["password"] = wifi_password;
-  rspObject["mdns"] = wifi_mdns;
+  rspObject["ssid"] = findDatabase("wifi_ssid");
+  rspObject["password"] = findDatabase("wifi_password");
+  rspObject["mdns"] = findDatabase("wifi_mdns");
 
   String jsonResponse;
   serializeJson(rspObject, jsonResponse);
