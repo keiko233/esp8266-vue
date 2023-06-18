@@ -12,5 +12,6 @@
 #include "defineGpio.h"
 #include "appUtils.h"
 #include "appLoadSetup.h"
+#include "hwUtils.h"
 
 #endif
