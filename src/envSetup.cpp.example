@@ -7,5 +7,11 @@ void appLoadLittleFSSetup() {
     insertDatabase("wifi_password", "password");
     insertDatabase("wifi_mdns", "esp8266");
     insertDatabase("fan_speed", "0");
+    insertDatabase("led_red_bright", "15000");
+    insertDatabase("led_red_blink", "3000");
+    insertDatabase("led_green_bright", "20000");
+    insertDatabase("led_green_blink", "3000");
+    insertDatabase("led_blue_bright", "5000");
+    insertDatabase("led_blue_blink", "3000");
   };
 }

@@ -12,6 +12,12 @@
 const int FAN_PWM = 14;
 // D6
 const int FAN_TACH = 12;
+// TX
+const int LED_R = 1;
+// D4
+const int LED_G = 2;
+// D0
+const int LED_B = 16;
 
 // Webserver
 AsyncWebServer server(80);
@@ -170,6 +176,9 @@ void notFound(AsyncWebServerRequest* request) {
 void appLoadPinMode(void) {
   pinMode(FAN_PWM, OUTPUT);
   pinMode(FAN_TACH, INPUT);
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_B, OUTPUT);
 }
 
 void appLoadRouter(void) {
@@ -220,4 +229,41 @@ void setup() {
   server.begin();
 }
 
-void loop() {}
+void controlLed(int ledPin, int duration, bool shouldBlink = false, int blinkInterval = 500) {
+  digitalWrite(LED_R, LOW);
+  digitalWrite(LED_B, LOW);
+  digitalWrite(LED_G, LOW);
+
+  if (shouldBlink) {
+    int blinkCount = duration / (2 * blinkInterval);
+    for (int i = 0; i < blinkCount; i++) {
+      digitalWrite(ledPin, LOW);
+      delay(blinkInterval);
+      digitalWrite(ledPin, HIGH);
+      delay(blinkInterval);
+    }
+  } else {
+    digitalWrite(ledPin, HIGH);
+    delay(duration);
+  }
+}
+
+void ledLoop() {
+  int led_red_bright = findDatabase("led_red_bright").toInt();
+  int led_red_blink = findDatabase("led_red_blink").toInt();
+  int led_green_bright = findDatabase("led_green_bright").toInt();
+  int led_green_blink = findDatabase("led_green_blink").toInt();
+  int led_blue_bright = findDatabase("led_blue_bright").toInt();
+  int led_blue_blink = findDatabase("led_blue_blink").toInt();
+
+  controlLed(LED_R, led_red_bright);
+  controlLed(LED_R, led_red_blink, true);
+  controlLed(LED_G, led_green_bright);
+  controlLed(LED_G, led_green_blink, true);
+  controlLed(LED_B, led_blue_bright);
+  controlLed(LED_B, led_blue_blink, true);
+}
+
+void loop() {
+  ledLoop();
+}
