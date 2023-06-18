@@ -27,5 +27,11 @@
   "control": {
     "fan_controll": "Fan Controll",
     "speed": "Speed"
+  },
+  "settings": {
+    "static_access_point_settings": "Static Access Point Settings",
+    "ssid": "SSID",
+    "password": "Password",
+    "mdns": "DNS Server Name"
   }
 }

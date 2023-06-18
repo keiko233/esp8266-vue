@@ -27,5 +27,11 @@
   "control": {
     "fan_controll": "风扇控制",
     "speed": "风扇速度"
+  },
+  "settings": {
+    "static_access_point_settings": "静态接入点设置",
+    "ssid": "接入点名称",
+    "password": "接入点密码",
+    "mdns": "DNS 服务器域名前缀"
   }
 }

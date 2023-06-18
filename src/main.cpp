@@ -98,6 +98,63 @@ void getFanSpeed(AsyncWebServerRequest* request) {
   request->send(200, "application/json", jsonResponse);
 }
 
+void getWlanInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(128);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  String wifi_ssid = findDatabase("wifi_ssid");
+  String wifi_password = findDatabase("wifi_password");
+  String wifi_mdns = findDatabase("wifi_mdns");
+
+  rspObject["ssid"] = wifi_ssid;
+  rspObject["password"] = wifi_password;
+  rspObject["mdns"] = wifi_mdns;
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(200, "application/json", jsonResponse);
+}
+
+void setWlanInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(256);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  int httpStatus;
+  String ssid;
+  String password;
+  String mdns;
+
+  if (request->hasParam("ssid", true) && request->hasParam("password", true) && request->hasParam("mdns", true)) {
+    httpStatus = 200;
+    ssid = request->getParam("ssid", true)->value();
+    password = request->getParam("password", true)->value();
+    mdns = request->getParam("mdns", true)->value();
+
+    if (ssid == "" || password == "" || mdns == "") {
+      rspObject["status"] = "error";
+      rspObject["message"] = "Parameter can'y be null or empty.";
+    } else if (password.length() < 8) {
+      rspObject["status"] = "error";
+      rspObject["message"] = "Password must be greater than 8 characters.";
+    } else {
+      updateDatabase("wifi_ssid", ssid);
+      updateDatabase("wifi_password", password);
+      updateDatabase("wifi_mdns", mdns);
+
+      rspObject["status"] = "success";
+      rspObject["message"] = "Wlan info saved, please restart board to take effect.";
+    }
+  } else {
+    httpStatus = 400;
+    rspObject["status"] = "error";
+    rspObject["message"] = "No speed parameter provided.";
+  }
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(httpStatus, "application/json", jsonResponse);
+}
+
 void notFound(AsyncWebServerRequest* request) {
   request->send(404, "text/plain", "Not found");
 }
@@ -121,6 +178,10 @@ void appLoadRouter(void) {
   server.on("/api/fan", HTTP_GET, getFanSpeed);
 
   server.on("/api/fan", HTTP_POST, setFanSpeed);
+
+  server.on("/api/settings/wlan", HTTP_GET, getWlanInfo);
+  
+  server.on("/api/settings/wlan", HTTP_POST, setWlanInfo);
 }
 
 void appLoadSetup(void) {

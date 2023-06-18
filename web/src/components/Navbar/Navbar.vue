@@ -17,7 +17,8 @@ const router = useRouter();
 
 const items = ref([
   { text: 'Home', icon: 'home', path: '/' },
-  { text: 'Control', icon: 'chair', path: '/control' }
+  { text: 'Control', icon: 'chair', path: '/control' },
+  { text: 'Settings', icon: 'settings', path: '/settings' }
 ]);
 
 const click = (path: string) => {
