@@ -9,7 +9,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    FanControl: typeof import('./src/components/FanControl/FanControl.vue')['default']
     LanguageSwitch: typeof import('./src/components/LanguageSwitch/LanguageSwitch.vue')['default']
+    LedSettings: typeof import('./src/components/LedSettings/LedSettings.vue')['default']
     Loading: typeof import('./src/components/Loading/Loading.vue')['default']
     Navbar: typeof import('./src/components/Navbar/Navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
