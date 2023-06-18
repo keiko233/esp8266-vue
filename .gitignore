@@ -31,4 +31,4 @@ dist-ssr
 
 # vite dist
 data/web/*
-db.json
+envSetup.cpp

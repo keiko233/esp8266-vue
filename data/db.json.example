@@ -1,7 +1,0 @@
-{
-  "wifi": {
-    "ssid": "ssid",
-    "password": "password",
-    "mdns": "esp8266"
-  }
-}

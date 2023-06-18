@@ -1,42 +1,79 @@
 #include "databaseUtils.h"
 
-const char* dbpath = "/db.json";
+const String databaseDirectoryName = "/database";
 
-JsonObject getDBObject(DynamicJsonDocument& doc) {
-  File file = LittleFS.open(dbpath, "r");
-  if (!file) {
-    Serial.println("Database file read failed.");
-    return JsonObject();
+void initialDatabase() {
+  if (!LittleFS.exists(databaseDirectoryName)) {
+    LittleFS.mkdir(databaseDirectoryName);
   }
-
-  size_t fileSize = file.size();
-  // 创建缓冲区来保存文件内容
-  std::unique_ptr<char[]> buf(new char[fileSize]);
-  file.readBytes(buf.get(), fileSize);
-  file.close();
-  DeserializationError error = deserializeJson(doc, buf.get());
-
-  if (error) {
-    Serial.println("Database Deserialization Error.");
-    return JsonObject();
-  }
-
-  return doc.as<JsonObject>();
 }
 
-bool setDBObject(const JsonObject& data) {
-  File file = LittleFS.open(dbpath, "w");
+bool insertDatabase(const String& name, const String& data) {
+  String filePath = databaseDirectoryName + "/" + name;
+  
+  File file = LittleFS.open(filePath, "w");
   if (!file) {
-    Serial.println("Database file read failed.");
+    Serial.println("Failed to create Database record file");
     return false;
   }
-
-  char buffer[256];
-  size_t bufferSize = sizeof(buffer);
-  size_t bytesWritten = serializeJson(data, buffer, bufferSize);
-  size_t bytesSaved = file.write(reinterpret_cast<const uint8_t*>(buffer), bytesWritten);
-
-  file.close();
   
-  return bytesWritten == bytesSaved;
+  file.print(data);
+  
+  file.close();
+  return true;
+}
+
+String findDatabase(const String& name) {
+  String filePath = databaseDirectoryName + "/" + name;
+  
+  if (!LittleFS.exists(filePath)) {
+    return "";
+  }
+  
+  File file = LittleFS.open(filePath, "r");
+  if (!file) {
+    Serial.println("Failed to open Database record file for reading");
+    return "";
+  }
+  
+  String data = file.readString();
+  
+  file.close();
+  return data;
+}
+
+bool updateDatabase(const String& name, const String& newData) {
+  String filePath = databaseDirectoryName + "/" + name;
+  
+  if (!LittleFS.exists(filePath)) {
+    Serial.println("Database not found for updating");
+    return false;
+  }
+  
+  File file = LittleFS.open(filePath, "w");
+  if (!file) {
+    Serial.println("Failed to open Database record file for writing");
+    return false;
+  }
+  
+  file.print(newData);
+  
+  file.close();
+  return true;
+}
+
+bool deleteDatabase(const String& name) {
+  String filePath = databaseDirectoryName + "/" + name;
+  
+  if (!LittleFS.exists(filePath)) {
+    Serial.println("Database not found for deleting");
+    return false;
+  }
+  
+  if (!LittleFS.remove(filePath)) {
+    Serial.println("Failed to delete Database record file");
+    return false;
+  }
+  
+  return true;
 }

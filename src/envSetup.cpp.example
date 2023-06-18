@@ -1,0 +1,11 @@
+#include "envSetup.h"
+
+void appLoadLittleFSSetup() {
+  if (!LittleFS.exists("/database/")) {
+    initialDatabase();
+    insertDatabase("wifi_ssid", "ssid");
+    insertDatabase("wifi_password", "password");
+    insertDatabase("wifi_mdns", "esp8266");
+    insertDatabase("fan_speed", "0");
+  };
+}

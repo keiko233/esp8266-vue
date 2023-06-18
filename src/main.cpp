@@ -4,6 +4,7 @@
 #include <ESPAsyncWebServer.h>
 #include "appLoad.h"
 #include "databaseUtils.h"
+#include "envSetup.h"
 
 #define APP_VERSION "0.1.2"
 
@@ -65,13 +66,7 @@ void setFanSpeed(AsyncWebServerRequest* request) {
     } else {
       analogWrite(FAN_PWM, param);
 
-      DynamicJsonDocument doc(200);
-      JsonObject database = getDBObject(doc);
-      database["control"]["fan"]["speed"] = param;
-
-      bool success = setDBObject(database);
-
-      if (success) {
+      if (updateDatabase("fan_speed", request->getParam("speed", true)->value())) {
         rspObject["status"] = "success";
         rspObject["message"] = "Speed set success.";
       } else {
@@ -91,11 +86,12 @@ void setFanSpeed(AsyncWebServerRequest* request) {
 }
 
 void getFanSpeed(AsyncWebServerRequest* request) {
-  DynamicJsonDocument jsonDoc(128);
+  StaticJsonDocument<128> jsonDoc;
   JsonObject rspObject = jsonDoc.to<JsonObject>();
 
-  DynamicJsonDocument doc(128);
-  rspObject["speed"] = getDBObject(doc)["control"]["fan"]["speed"];
+  String fan_speed = findDatabase("fan_speed");
+  int speed = fan_speed.toInt();
+  rspObject["speed"] = speed;
 
   String jsonResponse;
   serializeJson(rspObject, jsonResponse);
@@ -128,8 +124,8 @@ void appLoadRouter(void) {
 }
 
 void appLoadSetup(void) {
-  DynamicJsonDocument doc(128);
-  int speed = getDBObject(doc)["control"]["fan"]["speed"];
+  String fan_speed = findDatabase("fan_speed");
+  int speed = fan_speed.toInt();
   analogWrite(FAN_PWM, speed);
 }
 
@@ -137,15 +133,15 @@ void setup() {
   appLoadSerial();
   appLoadPinMode();
   appLoadLittleFS();
+  appLoadLittleFSSetup();
   appLoadSetup();
 
-  DynamicJsonDocument doc(256);
-  const char* ssid = getDBObject(doc)["wifi"]["ssid"];
-  const char* password = getDBObject(doc)["wifi"]["password"];
-  const char* mdns = getDBObject(doc)["wifi"]["mdns"];
+  String wifi_ssid = findDatabase("wifi_ssid");
+  String wifi_password = findDatabase("wifi_password");
+  String wifi_mdns = findDatabase("wifi_mdns");
 
-  appLoadWlan(ssid, password);
-  appLoadMDns(mdns);
+  appLoadWlan(wifi_ssid, wifi_password);
+  appLoadMDns(wifi_mdns);
   appLoadRouter();
   server.onNotFound(notFound);
   server.begin();
