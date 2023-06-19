@@ -3,6 +3,9 @@
 // Webserver
 AsyncWebServer server(80);
 
+ThreadController controll = ThreadController();
+Thread ledLoopThread = Thread();
+
 void appLoadPinMode(void) {
   pinMode(FAN_PWM, OUTPUT);
   pinMode(FAN_TACH, INPUT);
@@ -34,6 +37,12 @@ void appLoadRouter(void) {
   server.on("/api/serial", HTTP_POST, setSerialInfo);
 }
 
+void appLoadAsyncThread() {
+  ledLoopThread.onRun(ledLoop);
+
+  controll.add(&ledLoopThread);
+}
+
 void setup() {
   appLoadSerial();
   appLoadPinMode();
@@ -45,7 +54,9 @@ void setup() {
   appLoadRouter();
   server.onNotFound(notFound);
   server.begin();
-  asyncLedLoop();
+  appLoadAsyncThread();
 }
 
-void loop() {}
+void loop() {
+  controll.run();
+}

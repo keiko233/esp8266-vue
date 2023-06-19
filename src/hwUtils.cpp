@@ -19,15 +19,13 @@ void controlLed(int ledPin, int duration, bool shouldBlink, int blinkInterval) {
   }
 }
 
-void asyncLedLoop() {
-  while (true) {
-    controlLed(LED_R, findDatabase("led_red_bright").toInt());
-    controlLed(LED_R, findDatabase("led_red_blink").toInt(), true);
-    controlLed(LED_G, findDatabase("led_green_bright").toInt());
-    controlLed(LED_G, findDatabase("led_green_blink").toInt(), true);
-    controlLed(LED_B, findDatabase("led_blue_bright").toInt());
-    controlLed(LED_B, findDatabase("led_blue_blink").toInt(), true);
-  }
+void ledLoop() {
+  controlLed(LED_R, findDatabase("led_red_bright").toInt());
+  controlLed(LED_R, findDatabase("led_red_blink").toInt(), true);
+  controlLed(LED_G, findDatabase("led_green_bright").toInt());
+  controlLed(LED_G, findDatabase("led_green_blink").toInt(), true);
+  controlLed(LED_B, findDatabase("led_blue_bright").toInt());
+  controlLed(LED_B, findDatabase("led_blue_blink").toInt(), true);
 }
 
 float getHumidity(unsigned long timeoutDuration) {

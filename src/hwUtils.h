@@ -2,9 +2,10 @@
 #define HW_UTILS_H
 
 #include "main.h"
+#include "databaseUtils.h"
 
 void controlLed(int ledPin, int duration, bool shouldBlink = false, int blinkInterval = 500);
-void asyncLedLoop();
+void ledLoop();
 float getHumidity(unsigned long timeoutDuration = strtoul(findDatabase("serial_timeout_duration").c_str(), nullptr, 10));
 float getTemperature(unsigned long timeoutDuration = strtoul(findDatabase("serial_timeout_duration").c_str(), nullptr, 10));
 int getPhotoresistance(unsigned long timeoutDuration = strtoul(findDatabase("serial_timeout_duration").c_str(), nullptr, 10));

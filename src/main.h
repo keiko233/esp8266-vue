@@ -5,6 +5,8 @@
 #include <ArduinoJson.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <Thread.h>
+#include <ThreadController.h>
 #include "appLoad.h"
 #include "databaseUtils.h"
 #include "envSetup.h"
