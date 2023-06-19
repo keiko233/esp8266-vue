@@ -46,6 +46,8 @@
     "mdns": "DNS 服务器域名前缀",
     "shortcuts": "快捷操作",
     "soft_reboot": "软重启",
-    "restart": "硬重启"
+    "restart": "硬重启",
+    "serial_settings": "串口配置",
+    "serial_timeout_duration": "串口读取超时时长"
   }
 }

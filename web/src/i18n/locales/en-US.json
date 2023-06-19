@@ -46,6 +46,8 @@
     "mdns": "DNS Server Name",
     "shortcuts": "Shortcuts",
     "soft_reboot": "Soft reboot",
-    "restart": "Restart"
+    "restart": "Restart",
+    "serial_settings": "Serial Settings",
+    "serial_timeout_duration": "Serial read timeout duration"
   }
 }
