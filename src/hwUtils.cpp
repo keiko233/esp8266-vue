@@ -29,3 +29,35 @@ void asyncLedLoop() {
     controlLed(LED_B, findDatabase("led_blue_blink").toInt(), true);
   }
 }
+
+float getHumidity(unsigned long timeoutDuration) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeoutDuration) {
+    if (Serial.available() > 0) {
+      String receivedData = Serial.readStringUntil('\n');
+      if (receivedData.startsWith("Humidity: ")) {
+        receivedData.remove(0, 10);
+        return receivedData.toFloat();
+      }
+    }
+  }
+
+  return 0.0;
+}
+
+float getTemperature(unsigned long timeoutDuration) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeoutDuration) {
+    if (Serial.available() > 0) {
+      String receivedData = Serial.readStringUntil('\n');
+      if (receivedData.startsWith("Temperature: ")) {
+        receivedData.remove(0, 12);
+        return receivedData.toFloat();
+      }
+    }
+  }
+
+  return 0.0;
+}
