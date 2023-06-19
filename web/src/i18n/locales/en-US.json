@@ -22,7 +22,10 @@
     "connected_num": "Connected devices",
     "static_access_point_info": "Static access point info",
     "static_ssid": "SSID",
-    "status": "Status"
+    "status": "Status",
+    "sensor_info": "Sensor info",
+    "humidity": "Humidity",
+    "temperature": "Temperature"
   },
   "control": {
     "fan_controll": "Fan Controll",

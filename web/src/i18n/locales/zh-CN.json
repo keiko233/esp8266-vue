@@ -22,7 +22,10 @@
     "connected_num": "设备数量",
     "static_access_point_info": "静态接入点信息",
     "static_ssid": "静态接入点名称",
-    "status": "状态"
+    "status": "状态",
+    "sensor_info": "传感器信息",
+    "humidity": "湿度",
+    "temperature": "温度"
   },
   "control": {
     "fan_controll": "风扇控制",
