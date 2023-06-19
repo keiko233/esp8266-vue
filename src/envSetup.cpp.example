@@ -13,5 +13,6 @@ void appLoadLittleFSSetup() {
     insertDatabase("led_green_blink", "3000");
     insertDatabase("led_blue_bright", "5000");
     insertDatabase("led_blue_blink", "3000");
+    insertDatabase("serial_timeout_duration", "100");
   };
 }
