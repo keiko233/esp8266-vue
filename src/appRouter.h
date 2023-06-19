@@ -16,5 +16,6 @@ void softReboot(AsyncWebServerRequest* request);
 void restart(AsyncWebServerRequest* request);
 void getLedInfo(AsyncWebServerRequest* request);
 void setLedInfo(AsyncWebServerRequest* request);
+void getSensorInfo(AsyncWebServerRequest* request);
 
 #endif

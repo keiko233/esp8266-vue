@@ -215,3 +215,15 @@ void setLedInfo(AsyncWebServerRequest* request) {
   serializeJson(rspObject, jsonResponse);
   request->send(httpStatus, "application/json", jsonResponse);
 }
+
+void getSensorInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(256);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  rspObject["humidity"] = getHumidity();
+  rspObject["temperature"] = getTemperature();
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(200, "application/json", jsonResponse);
+}
