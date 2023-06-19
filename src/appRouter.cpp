@@ -228,3 +228,44 @@ void getSensorInfo(AsyncWebServerRequest* request) {
   serializeJson(rspObject, jsonResponse);
   request->send(200, "application/json", jsonResponse);
 }
+
+void getSerialInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(128);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  rspObject["timeout_duration"] = findDatabase("serial_timeout_duration").toInt();
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(200, "application/json", jsonResponse);
+}
+
+void setSerialInfo(AsyncWebServerRequest* request) {
+  DynamicJsonDocument jsonDoc(256);
+  JsonObject rspObject = jsonDoc.to<JsonObject>();
+
+  int httpStatus;
+  int timeout_duration;
+
+  if (request->hasParam("timeout_duration", true)) {
+    timeout_duration  = request->getParam("timeout_duration", true)->value().toInt();
+
+    if (timeout_duration == 0) {
+      rspObject["status"] = "error";
+      rspObject["message"] = "Parameter can'y be null or empty.";
+    } else {
+      updateDatabase("timeout_duration", String(timeout_duration));
+
+      rspObject["status"] = "success";
+      rspObject["message"] = "Serial Info saved.";
+    }
+  } else {
+    httpStatus = 400;
+    rspObject["status"] = "error";
+    rspObject["message"] = "No timeout_duration parameter provided.";
+  }
+
+  String jsonResponse;
+  serializeJson(rspObject, jsonResponse);
+  request->send(httpStatus, "application/json", jsonResponse);
+}

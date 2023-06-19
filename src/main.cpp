@@ -30,6 +30,8 @@ void appLoadRouter(void) {
   server.on("/api/led", HTTP_GET, getLedInfo);
   server.on("/api/led", HTTP_POST, setLedInfo);
   server.on("/api/sensor", HTTP_GET, getSensorInfo);
+  server.on("/api/serial", HTTP_GET, getSerialInfo);
+  server.on("/api/serial", HTTP_POST, setSerialInfo);
 }
 
 void setup() {

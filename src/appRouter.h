@@ -17,5 +17,7 @@ void restart(AsyncWebServerRequest* request);
 void getLedInfo(AsyncWebServerRequest* request);
 void setLedInfo(AsyncWebServerRequest* request);
 void getSensorInfo(AsyncWebServerRequest* request);
+void getSerialInfo(AsyncWebServerRequest* request);
+void setSerialInfo(AsyncWebServerRequest* request);
 
 #endif
