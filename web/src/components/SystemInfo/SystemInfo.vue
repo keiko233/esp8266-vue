@@ -1,5 +1,5 @@
 <template>
-    <v-row>
+  <v-row>
     <v-col cols="12" sm="4" v-for="card in cards" :key="card.title">
       <v-card :title="$t(card.title)">
         <template v-slot:text>
