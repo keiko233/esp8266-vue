@@ -25,7 +25,8 @@
     "status": "状态",
     "sensor_info": "传感器信息",
     "humidity": "湿度",
-    "temperature": "温度"
+    "temperature": "温度",
+    "photoresistance": "光敏电阻"
   },
   "control": {
     "fan_controll": "风扇控制",

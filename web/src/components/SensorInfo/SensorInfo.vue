@@ -7,6 +7,7 @@
       <div>
         <p><span>{{ $t('home.humidity') }}: </span>{{ sensorInfo.humidity }}%</p>
         <p><span>{{ $t('home.temperature') }}: </span>{{ sensorInfo.temperature }}℃</p>
+        <p><span>{{ $t('home.photoresistance') }}: </span>{{ sensorInfo.photoresistance }}Ω</p>
       </div>
     </template>
   </v-card>
@@ -17,7 +18,8 @@ const loading = ref(false);
 
 const sensorInfo = ref({
   humidity: null,
-  temperature: null
+  temperature: null,
+  photoresistance: null
 });
 
 const getSensorInfo = () => {

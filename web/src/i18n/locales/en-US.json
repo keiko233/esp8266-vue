@@ -25,7 +25,8 @@
     "status": "Status",
     "sensor_info": "Sensor info",
     "humidity": "Humidity",
-    "temperature": "Temperature"
+    "temperature": "Temperature",
+    "photoresistance": "Photoresistance"
   },
   "control": {
     "fan_controll": "Fan Controll",

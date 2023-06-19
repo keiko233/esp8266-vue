@@ -222,6 +222,7 @@ void getSensorInfo(AsyncWebServerRequest* request) {
 
   rspObject["humidity"] = getHumidity();
   rspObject["temperature"] = getTemperature();
+  rspObject["photoresistance"] = getPhotoresistance();
 
   String jsonResponse;
   serializeJson(rspObject, jsonResponse);

@@ -9,5 +9,6 @@ void controlLed(int ledPin, int duration, bool shouldBlink = false, int blinkInt
 void asyncLedLoop();
 float getHumidity(unsigned long timeoutDuration = SERIAL_TIMEOUT_DURATION);
 float getTemperature(unsigned long timeoutDuration = SERIAL_TIMEOUT_DURATION);
+int getPhotoresistance(unsigned long timeoutDuration = SERIAL_TIMEOUT_DURATION);
 
 #endif

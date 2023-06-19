@@ -61,3 +61,19 @@ float getTemperature(unsigned long timeoutDuration) {
 
   return 0.0;
 }
+
+int getPhotoresistance(unsigned long timeoutDuration) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeoutDuration) {
+    if (Serial.available() > 0) {
+      String receivedData = Serial.readStringUntil('\n');
+      if (receivedData.startsWith("Photoresistance: ")) {
+        receivedData.remove(0, 17);
+        return receivedData.toInt();
+      }
+    }
+  }
+
+  return 0;
+}
