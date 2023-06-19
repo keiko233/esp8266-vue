@@ -254,7 +254,7 @@ void setSerialInfo(AsyncWebServerRequest* request) {
       rspObject["status"] = "error";
       rspObject["message"] = "Parameter can'y be null or empty.";
     } else {
-      updateDatabase("timeout_duration", String(timeout_duration));
+      updateDatabase("serial_timeout_duration", String(timeout_duration));
 
       rspObject["status"] = "success";
       rspObject["message"] = "Serial Info saved.";
