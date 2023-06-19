@@ -248,6 +248,7 @@ void setSerialInfo(AsyncWebServerRequest* request) {
   int timeout_duration;
 
   if (request->hasParam("timeout_duration", true)) {
+    httpStatus = 200;
     timeout_duration  = request->getParam("timeout_duration", true)->value().toInt();
 
     if (timeout_duration == 0) {
