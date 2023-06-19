@@ -77,3 +77,20 @@ int getPhotoresistance(unsigned long timeoutDuration) {
 
   return 0;
 }
+
+int getButtonClick(int buttonNumber, unsigned long timeoutDuration) {
+  unsigned long startTime = millis();
+  String buttonPrefix = "BTN_" + String(buttonNumber) + ": ";
+
+  while (millis() - startTime < timeoutDuration) {
+    if (Serial.available() > 0) {
+      String receivedData = Serial.readStringUntil('\n');
+      if (receivedData.startsWith(buttonPrefix)) {
+        receivedData.remove(0, 7);
+        return receivedData.toInt();
+      }
+    }
+  }
+
+  return 0;
+}
