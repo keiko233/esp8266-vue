@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SensorInfo: typeof import('./src/components/SensorInfo/SensorInfo.vue')['default']
+    StaticAccessPointSettings: typeof import('./src/components/StaticAccessPointSettings/StaticAccessPointSettings.vue')['default']
     SystemInfo: typeof import('./src/components/SystemInfo/SystemInfo.vue')['default']
   }
 }
