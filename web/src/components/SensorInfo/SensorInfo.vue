@@ -8,6 +8,8 @@
         <p><span>{{ $t('home.humidity') }}: </span>{{ sensorInfo.humidity }}%</p>
         <p><span>{{ $t('home.temperature') }}: </span>{{ sensorInfo.temperature }}℃</p>
         <p><span>{{ $t('home.photoresistance') }}: </span>{{ sensorInfo.photoresistance }}Ω</p>
+        <p><span>{{ $t('home.btn_4_clicks') }}: </span>{{ sensorInfo.btn_4 }}</p>
+        <p><span>{{ $t('home.btn_7_clicks') }}: </span>{{ sensorInfo.btn_7 }}</p>
         <v-btn class="mt-2" @click="getSensorInfo">{{ $t('refresh') }}</v-btn>
       </div>
     </template>
@@ -20,7 +22,9 @@ const loading = ref(false);
 const sensorInfo = ref({
   humidity: null,
   temperature: null,
-  photoresistance: null
+  photoresistance: null,
+  btn_4: null,
+  btn_7: null
 });
 
 const getSensorInfo = () => {

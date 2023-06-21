@@ -26,7 +26,9 @@
     "sensor_info": "传感器信息",
     "humidity": "湿度",
     "temperature": "温度",
-    "photoresistance": "光敏电阻"
+    "photoresistance": "光敏电阻",
+    "btn_4_clicks": "按钮 4 触发次数",
+    "btn_7_clicks": "按钮 7 触发次数"
   },
   "control": {
     "fan_controll": "风扇控制",

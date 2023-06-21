@@ -26,7 +26,9 @@
     "sensor_info": "Sensor info",
     "humidity": "Humidity",
     "temperature": "Temperature",
-    "photoresistance": "Photoresistance"
+    "photoresistance": "Photoresistance",
+    "btn_4_clicks": "Button 4 Clicks",
+    "btn_7_clicks": "Button 7 Clicks"
   },
   "control": {
     "fan_controll": "Fan Controll",
